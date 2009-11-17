@@ -1,0 +1,1 @@
+ActionController::Base.send :include, MaintenanceNotifier::ActionControllerIncludes

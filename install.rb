@@ -1,0 +1,7 @@
+puts "================================="
+puts ""
+puts "Maintenance Notifier"
+puts ""
+puts "Please run rake maintenance_notifier:install before using the plugin."
+puts ""
+puts "=================================" 
