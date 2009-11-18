@@ -5,40 +5,40 @@ namespace :maintenance_notifier do
     
     files_to_copy = []
     files_to_copy << {
-      :src => "#{File.dirname(__FILE__)}/../lib/src/maintenance_controller.rb",
+      :src => "#{File.dirname(__FILE__)}/../src/app/controllers/maintenance_controller.rb",
       :dest => "#{RAILS_ROOT}/app/controllers/maintenance_controller.rb"
     }
     
     files_to_copy << {
-      :src => "#{File.dirname(__FILE__)}/../lib/src/_maintenance_alert.html.erb",
+      :src => "#{File.dirname(__FILE__)}/../src/app/views/maintenance/_maintenance_alert.html.erb",
       :dest => "#{RAILS_ROOT}/app/views/maintenance/_maintenance_alert.html.erb",
       :prerequisite => "#{RAILS_ROOT}/app/views/maintenance/"
     }
     
     files_to_copy << {
-      :src => "#{File.dirname(__FILE__)}/../lib/src/maintenance_notifier.css",
+      :src => "#{File.dirname(__FILE__)}/../src/public/stylesheets/maintenance_notifier.css",
       :dest => "#{RAILS_ROOT}/public/stylesheets/maintenance_notifier.css"
     }
 
+    puts "Copying files:"
     files_to_copy.each do |copy_info|
-      src = copy_info[:src]
-      dest = copy_info[:dest]
-      prerequisite = copy_info[:prerequisite]
+      src          = File.expand_path(copy_info[:src])
+      dest         = File.expand_path(copy_info[:dest])
+      prerequisite = File.expand_path(copy_info[:prerequisite]) if copy_info[:prerequisite]
 
-      # Controller with the name already exists? 
+      # The destination file already exists? Report the problem and continue. 
       if File.exists?(dest)
         puts "ERROR: Problem installing plugin. File #{dest} already exists."
       else
         begin
           if prerequisite && !File.exists?(prerequisite)
-            print "Creating #{prerequisite} ... "
+            puts "+ #{prerequisite} ... "
             FileUtils.mkdir_p prerequisite
-            puts "DONE"
+            print "  "
           end
           
-          print "Creating #{dest} ... "
+          puts "+ #{dest} ... "
           FileUtils.cp_r src, dest
-          puts "DONE"
         rescue => e
           puts e.inspect
           puts "ERROR: Problem installing plugin."
@@ -50,5 +50,7 @@ namespace :maintenance_notifier do
 
     puts "\n"
     puts "Successfully installed Maintenance Notifier plugin."
+    puts "Please look into README for usage and examples."
+    puts "\n"
   end
 end

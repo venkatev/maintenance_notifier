@@ -1,13 +1,35 @@
 MaintenanceNotifier
 ===================
 
-Notify users about scheduled maintanences.
+Show scheduled maintenance messages to end users, notifying them about the
+expected downtime.
 
+=== Installation
+Using Git
+  script/plugin install http://github.com/venkatev/maintenance_notifier
 
-Example
-=======
+=== Setup
+After installing the plugin, run <b>rake maintenance_notifier:install</b> command
+to copy files required by the plugin to the project.
 
-Will add more about this plugin with explanation soon ....
+=== Usage
+* Include assets required by the plugin using +maintenance_helper_includes+.
+  Typically this goes into the HEAD section in the layout.
+* Call +maintenance_alert+ helper in your layout/template at the point where
+  it should be rendered.
+
+== Configuration
+The notifier can be configured as per your application needs as follows.
+
+* By default, maintenance messages are enabled only for production environment.
+  For enabling them in development environment, override
+  ApplicationControllenable_maintenance_message? to return true.
+* The default maintenance file is maintenance_schedule.csv located at project root.
+  For changing it, call +set_maintenance_schedule_file+ with the new file name
+  from your controller.
+* The default notification period is 24 hours, i.e, the message will be started
+  to be shown 24 hours prior to the scheduled start time. It can be changed by
+  setting +set_maintenance_notification_offset+ 
 
 
 Copyright (c) 2009 Vikram Venkatesan, released under the MIT license
